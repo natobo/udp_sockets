@@ -15,12 +15,20 @@ buf =1024
 
 while True:
     print ('\nwaiting to receive message')
-    data, address = sock.recvfrom(4096)
+    data, address = sock.recvfrom(buf)
     print ('received %s bytes from %s' % (len(data), address))
     print (data)
+
     #Envia nombre del archivo
     print("HII::"+file_name.encode())
     sock.sendto(file_name.encode(),address)
+    
+    print ('\nEsperando Confirmacion de cliente')
+    data, address = sock.recvfrom(buf)
+    print ('received %s bytes from %s' % (len(data), address))
+    print (data)
+    
+    
     #if data:
     #    f=open(file_name,"rb")
     #    data = f.read(buf)

@@ -6,13 +6,13 @@ import time
 sock = socket.socket(socket.AF_INET, socket.SOCK_DGRAM)
 
 server_address = ('34.71.37.77', 10000)
-message = 'This is the message.  It will be repeated.'
 buf=1024
 
 try:
     # Send data
-    print('sending "%s"' % message)
-    sent = sock.sendto(message.encode(), server_address)
+    message1 = 'Hola servidor!'
+    print('sending "%s"' % message1)
+    sent = sock.sendto(message1.encode(), server_address)
 
     # Receive response
     #print ('waiting to receive')
@@ -20,7 +20,12 @@ try:
     #print ('received "%s"' % data)
     
     data,addr = sock.recvfrom(buf)
-    print ("Received File:",data)
+    print ("Received File:",data.decode())
+    
+    # Send data
+    message2 = 'Estoy listo para recibir!'
+    print('sending "%s"' % message2)
+    sent = sock.sendto(message2.encode(), server_address)
 
     #f = open('_'+str(time.time()).split('.')[0]+'.jpg','wb')
     #data,addr = sock.recvfrom(buf)
