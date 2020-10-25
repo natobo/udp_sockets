@@ -45,6 +45,9 @@ try:
         data,addr = sock.recvfrom(buf)
 except:
     f.close()
-    sock.close()
-    print(VerificateHash(hashcode,new_filename))
+    msgHash=VerificateHash(hashcode,new_filename)
+    print(msg)
     print("File Downloaded")
+    print('sending "%s"' % msgHash)
+    sent = sock.sendto(msgHash.encode(), server_address)
+    sock.close()

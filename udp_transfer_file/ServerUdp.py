@@ -36,7 +36,7 @@ while True:
     print("HII::"+file_name+separador+createVerificationCode(file_name))
     sock.sendto(file_name+separador+createVerificationCode(file_name).encode(),address)
     
-    print ('\nEsperando Confirmacion de cliente')
+    print ('\nEsperando señal de inicio del cliente')
     ack, address = sock.recvfrom(buf)
     print ('received %s bytes from %s' % (len(data), address))
     print (ack)
@@ -51,3 +51,8 @@ while True:
                 data = f.read(buf)
         f.close()
         print ('sent %s bytes back to %s' % (sent, address))
+
+        print ('\nEsperando confirmación hash')
+        msg_hash, address = sock.recvfrom(buf)
+        print(msg_hash)
+    
