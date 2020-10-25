@@ -19,21 +19,21 @@ try:
     #data, server = sock.recvfrom(4096)
     #print ('received "%s"' % data)
     
-    data,addr = sock.recvfrom(buf)
-    print ("Received File:",data.decode())
+    filename,addr = sock.recvfrom(buf)
+    print ("Received File:",filename.decode())
     
     # Send data
     message2 = 'Estoy listo para recibir!'
     print('sending "%s"' % message2)
     sent = sock.sendto(message2.encode(), server_address)
 
-    #f = open('_'+str(time.time()).split('.')[0]+'.jpg','wb')
-    #data,addr = sock.recvfrom(buf)
+    f = open(filename+'_'+str(time.time()).split('.')[0]+'.jpg','wb')
+    data,addr = sock.recvfrom(buf)
     
-    #while(data):
-    #    f.write(data)
-    #    data,addr = sock.recvfrom(buf) 
-    #print('closing socket')
-    #f.close()
+    while(data):
+        f.write(data)
+        data,addr = sock.recvfrom(buf) 
+    print('closing socket')
+    f.close()
 finally:
     sock.close()

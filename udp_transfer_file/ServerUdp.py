@@ -24,19 +24,19 @@ while True:
     sock.sendto(file_name.encode(),address)
     
     print ('\nEsperando Confirmacion de cliente')
-    data, address = sock.recvfrom(buf)
+    ack, address = sock.recvfrom(buf)
     print ('received %s bytes from %s' % (len(data), address))
-    print (data)
+    print (ack)
     
     
-    #if data:
-    #    f=open(file_name,"rb")
-    #    data = f.read(buf)
-    #    while (data):
-    #        sent = sock.sendto(data, address)
-    #        if(sent):
-    #            print ('sent %s bytes back to %s' % (sent, address))
-    #            data = f.read(buf)
-    #    sock.close()
-    #    f.close()
-    #    print ('sent %s bytes back to %s' % (sent, address))
+    if ack:
+        f=open(file_name,"rb")
+        data = f.read(buf)
+        while (data):
+            sent = sock.sendto(data, address)
+            if(sent):
+                print ('sent %s bytes back to %s' % (sent, address))
+                data = f.read(buf)
+        sock.close()
+        f.close()
+        print ('sent %s bytes back to %s' % (sent, address))
