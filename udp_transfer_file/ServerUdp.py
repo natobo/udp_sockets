@@ -37,6 +37,5 @@ while True:
             if(sent):
                 print ('sent %s bytes back to %s' % (sent, address))
                 data = f.read(buf)
-        sock.close()
         f.close()
         print ('sent %s bytes back to %s' % (sent, address))

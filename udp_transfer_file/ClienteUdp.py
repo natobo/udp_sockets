@@ -27,12 +27,13 @@ try:
     print('sending "%s"' % message2)
     sent = sock.sendto(message2.encode(), server_address)
 
-    f = open(filename+'_'+str(time.time()).split('.')[0]+'.jpg','wb')
-    data,addr = sock.recvfrom(buf)
+    f = open(filename.decode()+'_'+str(time.time()).split('.')[0]+'.jpg','wb')
     
+    data,addr = sock.recvfrom(buf)
     while(data):
         f.write(data)
         data,addr = sock.recvfrom(buf) 
+    
     print('closing socket')
     f.close()
 finally:
