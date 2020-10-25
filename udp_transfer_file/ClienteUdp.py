@@ -19,14 +19,15 @@ try:
     #data, server = sock.recvfrom(4096)
     #print ('received "%s"' % data)
 
-    data,addr = s.recvfrom(buf)
+    data,addr = sock.recvfrom(buf)
     print ("Received File:",data.decode().strip())
     f = open(data.decode().strip()+'_'+str(time.time()).split('.')[0]+'.jpg','wb')
-    data,addr = s.recvfrom(buf)
-    try:
-        while(data):
-            f.write(data)
-            s.settimeout(2)
-            data,addr = s.recvfrom(buf) 
+    data,addr = sock.recvfrom(buf)
+    
+    while(data):
+        f.write(data)
+        data,addr = s.recvfrom(buf) 
+    print('closing socket')
     f.close()
+finally:
     sock.close()
