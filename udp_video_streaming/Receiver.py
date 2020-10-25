@@ -5,7 +5,7 @@ import sys
 #Respuesta de conexion
 ack= 'ack'
 #Datos de conexion
-multicast_group = '224.3.29.71'
+multicast_group = '35.232.44.253'
 server_address = ('', 10000)
 # Crea el socket udp
 sock = socket.socket(socket.AF_INET, socket.SOCK_DGRAM)
