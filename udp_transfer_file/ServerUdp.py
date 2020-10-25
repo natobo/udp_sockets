@@ -19,6 +19,7 @@ while True:
     print ('received %s bytes from %s' % (len(data), address))
     print (data)
     #Envia nombre del archivo
+    print(file_name.encode())
     sock.sendto(file_name.encode(),address)
     if data:
         f=open(file_name,"rb")

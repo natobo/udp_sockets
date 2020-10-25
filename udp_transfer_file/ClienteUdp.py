@@ -18,16 +18,17 @@ try:
     #print ('waiting to receive')
     #data, server = sock.recvfrom(4096)
     #print ('received "%s"' % data)
-
-    data,addr = sock.recvfrom(buf)
-    print ("Received File:",data.decode().strip())
-    f = open(data.decode().strip()+'_'+str(time.time()).split('.')[0]+'.jpg','wb')
-    data,addr = sock.recvfrom(buf)
     
-    while(data):
-        f.write(data)
-        data,addr = s.recvfrom(buf) 
-    print('closing socket')
-    f.close()
+    data,addr = sock.recvfrom(buf)
+    print ("Received File:",data)
+
+    #f = open('_'+str(time.time()).split('.')[0]+'.jpg','wb')
+    #data,addr = sock.recvfrom(buf)
+    
+    #while(data):
+    #    f.write(data)
+    #    data,addr = sock.recvfrom(buf) 
+    #print('closing socket')
+    #f.close()
 finally:
     sock.close()
