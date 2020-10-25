@@ -5,7 +5,7 @@ import sys
 #Mensaje a transmitir
 message = "Mensaje en multidifusion"
 #Puerto e ip del servidor
-multicast_group = ('',10000)
+multicast_group = ('35.232.44.253',10000)
 
 #Crea un socket UDP que envia datagramas
 sock = socket.socket(socket.AF_INET, socket.SOCK_DGRAM)
