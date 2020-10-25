@@ -21,14 +21,14 @@ while True:
     #Envia nombre del archivo
     print("HII::"+file_name.encode())
     sock.sendto(file_name.encode(),address)
-    if data:
-        f=open(file_name,"rb")
-        data = f.read(buf)
-        while (data):
-            sent = sock.sendto(data, address)
-            if(sent):
-                print ('sent %s bytes back to %s' % (sent, address))
-                data = f.read(buf)
-        sock.close()
-        f.close()
-        print ('sent %s bytes back to %s' % (sent, address))
+    #if data:
+    #    f=open(file_name,"rb")
+    #    data = f.read(buf)
+    #    while (data):
+    #        sent = sock.sendto(data, address)
+    #        if(sent):
+    #            print ('sent %s bytes back to %s' % (sent, address))
+    #            data = f.read(buf)
+    #    sock.close()
+    #    f.close()
+    #    print ('sent %s bytes back to %s' % (sent, address))
