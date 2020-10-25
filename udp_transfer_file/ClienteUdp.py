@@ -9,14 +9,14 @@ sock = socket.socket(socket.AF_INET, socket.SOCK_DGRAM)
 server_address = ('34.71.37.77', 10000)
 buf=1024
 separador=','
-filename=''
+new_filename=''
 hashcode=''
 
 # Método que permite verificar la integridad del archivo enviado
 def VerificateHash(originalHash, filename):
     file = open(filename, 'rb')
     md5_returned = hashlib.md5(file.read()).hexdigest()
-    if originalHash.decode() == md5_returned:
+    if originalHash == md5_returned:
         return "HASH VERIFICADO"
     else:
         return "HASH ALTERADO"
@@ -29,14 +29,14 @@ try:
     # Receive response
     msg,addr = sock.recvfrom(buf)
     print ("Msg recibido:",msg.decode())
-    filename = msg.decode().split(separador)[0]  
+    filename = msg.decode().split(separador)[0].split('.')[0] 
     hashcode = msg.decode().split(separador)[1]   
     # Send data
     message2 = 'Estoy listo para recibir!'
     print('sending "%s"' % message2)
     sent = sock.sendto(message2.encode(), server_address)
-    
-    f = open(filename.decode()+'_'+str(time.time()).split('.')[0]+'.jpg','wb')
+    new_filename= filename+'_'+str(time.time()).split('.')[0]+'.jpg'
+    f = open(new_filename,'wb')
     
     data,addr = sock.recvfrom(buf)
     while(data):
@@ -46,5 +46,5 @@ try:
 except:
     f.close()
     sock.close()
-    print(VerificateHash(hashcode,filename))
+    print(VerificateHash(hashcode,new_filename))
     print("File Downloaded")
