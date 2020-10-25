@@ -52,7 +52,7 @@ while True:
         f.close()
         print ('sent %s bytes back to %s' % (sent, address))
 
-        print ('\nEsperando confirmación hash')
+        print ('\nEsperando confirmacion hash')
         msg_hash, address = sock.recvfrom(buf)
         print(msg_hash)
     
