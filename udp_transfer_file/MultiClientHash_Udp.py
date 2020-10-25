@@ -7,14 +7,13 @@ import datetime
 import sys
 
 # Constante que representa la ip del servidor con el que los clientes debe comunicarse
-TCP_IP = '34.71.37.77'
+UDP_IP = '34.71.37.77'
 # Constante que representa el puerto por el que se debe hacer la conexión ip
-TCP_PORT = 65432
+UDP_PORT = 65432
 # Constante que representa el número de bytes que se envían por segmento en el buffer
 BUFFER_SIZE = 1024
 # Constante que representa el mensaje de que se finalizo la transmisión de un mensaje
 END_TRANSMISION = b'TERMINO'
-
 
 # Método que permite verificar la integridad del archivo enviado
 def VerificateHash(originalHash, filename):
@@ -24,7 +23,6 @@ def VerificateHash(originalHash, filename):
         return "HASH VERIFICADO"
     else:
         return "HASH ALTERADO"
-
 
 """ Los siguientes métodos auxiliares se usaron para conformar los mensajes con protocolo TCP
 Fueron tomados de este blog: https://stupidpythonideas.blogspot.com/2013/05/sockets-are-byte-streams-not-message.html"""
@@ -56,7 +54,7 @@ class ClientThread(Thread):
     #Metodo que inicia un Thread
     def __init__(self, id):
         Thread.__init__(self)
-        print(" Nuevo thread en"+str(time.time())+":"+str(TCP_PORT))
+        print(" Nuevo thread en"+str(time.time())+":"+str(UDP_PORT))
         self.id = id
     #Metodo que inicia la ejecución del Thread Cliente
     def run(self):
@@ -74,7 +72,7 @@ class ClientThread(Thread):
                       str(datetime.datetime.now()) + '\n')
             # Ejecucion del programa
             s = socket.socket(socket.AF_INET, socket.SOCK_DGRAM)
-            s.connect((TCP_IP, TCP_PORT))
+            s.connect((UDP_IP, UDP_PORT))
             tInicio = time.time_ns()
             log.write("Tiempo de inicio de ejecucion de Th_" +
                       str(self.id)+" : "+str(tInicio)+'\n')

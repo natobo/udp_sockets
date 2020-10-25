@@ -5,8 +5,9 @@ import hashlib
 import time
 import sys
 import datetime
-TCP_IP = ''
-TCP_PORT = 65432
+
+UDP_IP = ''
+UDP_PORT = 65432
 BUFFER_SIZE = 1024
 END_TRANSMISION = b'TERMINO'
 
@@ -117,10 +118,10 @@ class ClientThread(Thread):
             log.write("Correctitud del envio hasta el th" +
                       self.id + ": " + str(correctoGlobal) + "\n")
             log.close()
-
-# Crea el socket UDP por el que el servidor estará escuchando a los clientes
-udpsock = s = socket.socket(socket.AF_INET, socket.SOCK_DGRAM)
-udpsock.bind((TCP_IP, TCP_PORT))
+            
+# Crea el socket por el que el servidor estará escuchando a los clientes
+ucpsock = socket.socket(socket.AF_INET, socket.SOCK_DGRAM)
+ucpsock.bind((UDP_IP, UDP_PORT))
 threads = []
 # Aplicacion de ejecucion del servidor para definir cual archivo es que el que va transmitir y a cuantos clientes.
 print("Hola!, bienvenido a la aplicacion del grupo 11, por favor selecciona el archivo de video a mandar: "+"\n")
@@ -140,9 +141,9 @@ with open(LogTxt, 'w') as log:
 clientId = 0
 #Loop infinito que acepta conexiones de clientes entrantes
 while True:
-    udpsock.listen(25)
+    ucpsock.listen(25)
     print("Esperando por conexiones entrantes...")
-    (conn, (ip, port)) = udpsock.accept()
+    (conn, (ip, port)) = ucpsock.accept()
     print('Conexion desde  ', (ip, port))
     clientId += 1
     newthread = ClientThread(ip, port, conn, clientId)
