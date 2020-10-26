@@ -22,11 +22,12 @@ class ClientThread(Thread):
         global Verification_code
         global file_name
         global sock
+        global flag
 
         #Envia nombre del archivo, el codigo de verificacion de Hash y el puerto por el que se va a realizar la nueva conexion
         print("filename_md5_port::"+file_name+separador+Verification_code+separador+str(self.address[1]))
         sock.sendto((file_name+separador+Verification_code+separador+str(self.address[1])).encode(),self.address)
-
+        flag=1
         #inicializa el nuevo socket
         self.sock.bind(self.address)
         
@@ -110,7 +111,9 @@ def createVerificationCode(filename):
 verification_code = createVerificationCode(file_name)
 #Dejar inicializacion en 1, lo toma como id del primer Thread 
 clientId = 1
-
+#Bandera que permite saber si ya inicializo un Thread correctamente el socket principal
+#0 para que no ha inicializado 1 para indicar que si
+flag=0
 while True:
     print ('\nWaiting to receive message')
     data, address = sock.recvfrom(buf)
@@ -121,6 +124,10 @@ while True:
         new_server_address = (address[0], UDP_PORT+clientId)
         newthread = ClientThread(clientId, new_server_address,newSocket)
         newthread.start()
+        while True:
+            if flag == 1:
+                flag = 0
+                break
         clientId +=1
     #A partir de aqui va el cliente
     
