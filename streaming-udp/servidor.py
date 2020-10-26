@@ -7,7 +7,7 @@ import threading
 import os
 import argparse
 import sys
-from pynput import keyboard
+import keyboard
 import select
 from queue import Queue
 
@@ -80,7 +80,7 @@ def canal(IP = "224.1.1.1",Puerto = 20001,v=None,e=0,nombre="Canal"):
 
 # Escuchar teclado para detectar interrupcion
 interrumpir = True
-def on_press(tecla):
+def key_press(tecla):
     global interrumpir
     if tecla == keyboard.KeyCode.from_char("z"):
         print ("\nApagando...")
@@ -106,7 +106,7 @@ for (direccion, directorios, archivos) in os.walk(os.path.abspath("")+"/canales"
                 # Verifica si archivo es video
                 if video.endswith(".mp4"):
                     print(video,end=" ")
-                    # Crea thread de carga
+                    # Crea thread de caraga
                     t=threading.Thread(target = cargar,kwargs={'ruta':"canales/"+directorio+"/"+video})
                     t.start()
                     # Agrega thread a lista
@@ -147,29 +147,30 @@ for infocanal in contenido:
 
 # Loop principal
 # Inicia escucha de teclado
-with keyboard.Listener(on_press=on_press) as listener:
+#with keyboard.Listener(on_press=on_press) as listener:
+keyboard.on_press(key_press)
     # Crear socket
-    with socket.socket(family=socket.AF_INET, type=socket.SOCK_DGRAM) as Socket:
-        # Conecta socket a ip y puerto
-        Socket.bind((IP, Puerto))
-        # Iniciando escucha de clientes
-        print("\nEscuchando clientes en: "+IP+":"+str(Puerto)+"\n")
-        while interrumpir:
-            # Verifica si llego mensaje
-            leer, escribir, error = select.select([Socket],[],[],10)
-            # Si llego
-            if Socket in leer:
-                recibido = Socket.recvfrom(TamBuffer)
-                # Verifica mensaje
-                if recibido[0].decode() == "Hola":
-                    # Informa solicitud
-                    print("Solicitud de catalogo: "+recibido[1][0]+":"+str(recibido[1][1]))
-                    # Envia catalogo
-                    s = "Canales: "
-                    for i in ca:
-                        s=s+i[0]+","+i[2]+" "
-                    Socket.sendto(str.encode(s.strip()), recibido[1])
-    listener.join()
+with socket.socket(family=socket.AF_INET, type=socket.SOCK_DGRAM) as Socket:
+	# Conecta socket a ip y puerto
+	Socket.bind((IP, Puerto))
+	# Iniciando escucha de clientes
+	print("\nEscuchando clientes en: "+IP+":"+str(Puerto)+"\n")
+	while interrumpir:
+		# Verifica si llego mensaje
+		leer, escribir, error = select.select([Socket],[],[],10)
+		# Si llego
+		if Socket in leer:
+			recibido = Socket.recvfrom(TamBuffer)
+			# Verifica mensaje
+			if recibido[0].decode() == "Hola":
+				# Informa solicitud
+				print("Solicitud de catalogo: "+recibido[1][0]+":"+str(recibido[1][1]))
+				# Envia catalogo
+				s = "Canales: "
+				for i in ca:
+					s=s+i[0]+","+i[2]+" "
+				Socket.sendto(str.encode(s.strip()), recibido[1])
+#listener.join()
 
 # Detener threads
 print("Apagando canales...")
