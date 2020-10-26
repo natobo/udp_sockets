@@ -53,7 +53,7 @@ while True:
     print ('received %s bytes from %s' % (len(data), address))
     print (data)
 
-    #A partir de aquí va el cliente
+    #A partir de aqui va el cliente
     
     
     #Numero de datagramas enviados
