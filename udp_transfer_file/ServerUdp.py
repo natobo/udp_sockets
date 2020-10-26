@@ -30,11 +30,9 @@ LogTxt = 'log_servidor' + \
 with open(LogTxt, 'w') as log:
     log.write("Fecha y hora de la prueba: " +
               str(datetime.datetime.now()) + '\n')
-    log.write("Archivo a transmitir: " + file_name)
-    log.write("Tamano archivo: " + str(sys.getsizeof(file_name)))
+    log.write("Archivo a transmitir: " + file_name + '\n')
+    log.write("Tamano archivo: " + str(sys.getsizeof(file_name))+ '\n')
     log.close()
-
-clientId = 0
 
 # Variable que almacena el codigo md5 en hexadecimal del archivo a enviar
 Verification_code = 'NoCodigo'
@@ -55,8 +53,16 @@ while True:
     print ('received %s bytes from %s' % (len(data), address))
     print (data)
 
+    #A partir de aquí va el cliente
+    
+    
+    #Numero de datagramas enviados
+    enviados = 0
+    #Id del cliente
+    clientId = 0
+    
     #Envia nombre del archivo y el codigo de verificacion de Hash
-    print("HII::"+file_name+separador+createVerificationCode(file_name))
+    print("filename_md5::"+file_name+separador+createVerificationCode(file_name))
     sock.sendto(file_name+separador+createVerificationCode(file_name).encode(),address)
     
     print ('\nEsperando indicador de inicio del cliente')
@@ -67,15 +73,28 @@ while True:
     if ack:
         f=open(file_name,"rb")
         data = f.read(buf)
+        tInicial = time.time_ns()
         while (data):
             sent = sock.sendto(data, address)
             if(sent):
                 print ('sent %s bytes back to %s' % (sent, address))
                 data = f.read(buf)
+                enviados += 1
         f.close()
         print ('sent %s bytes back to %s' % (sent, address))
 
-        print ('\nEsperando confirmacion hash')
-        msg_hash, address = sock.recvfrom(buf)
-        print(msg_hash)
+        print ('\nEsperando confirmacion hash y num datagramas recibidos')
+        msg_last, address = sock.recvfrom(buf)
+        tFinal = time.time_ns()
+        print(msg_last)
+        msg_hash, recibidos = msg_last.split(separador)
+        
+        with open(LogTxt, 'w') as log:
+            log.write('Cliente %i - fragmentos enviados: %i' % (clientId, enviados) + '\n')
+            log.write('Cliente %i - fragmentos recibidos: %i' % (clientId, recibidos) + '\n')
+            log.write('Cliente %i - verificación: %s' % (clientId, msg_hash)+ '\n' )
+            log.write('Cliente %i - tInicial: %s' % str(tInicial) + '\n')
+            log.write('Cliente %i - tFinal: %s' % str(tFinal) + '\n')
+            log.write('Cliente %i - tTotal: %s' % str(tFinal - tInicial) + '\n')
+            log.close()
     

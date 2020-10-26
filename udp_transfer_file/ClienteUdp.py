@@ -22,31 +22,40 @@ def VerificateHash(originalHash, filename):
         return "HASH ALTERADO"
 
 try:
+    
     # Send data
     message1 = 'Hola servidor!'
     print('sending "%s"' % message1)
     sent = sock.sendto(message1.encode(), server_address)
+    
     # Receive response
     msg,addr = sock.recvfrom(buf)
     print ("Msg recibido:",msg.decode())
     filename,extension = msg.decode().split(separador)[0].split('.')
     hashcode = msg.decode().split(separador)[1]   
+    
     # Send data
     message2 = 'Estoy listo para recibir!'
     print('sending "%s"' % message2)
     sent = sock.sendto(message2.encode(), server_address)
+
+    #Crea el archivo
     new_filename= filename+'_'+str(time.time()).split('.')[0]+'.'+extension
     f = open(new_filename,'wb')
+
+    #Numero de datagramas recibidos
+    recibidos = 1
     data,addr = sock.recvfrom(buf)
     while(data):
+        recibidos+=1
         f.write(data)
         sock.settimeout(2)
         data,addr = sock.recvfrom(buf)
 except:
     f.close()
     msgHash=VerificateHash(hashcode,new_filename)
-    print(msg)
+    msgToSend=msgHash+separador+recibidos
     print("File Downloaded")
-    print('sending "%s"' % msgHash)
-    sent = sock.sendto(msgHash.encode(), server_address)
-    sock.close()
+    print('sending "%s"' % msgToSend)
+    sent = sock.sendto(msgToSend.encode(), server_address)
+    sock.close() 
