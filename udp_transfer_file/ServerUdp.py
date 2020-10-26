@@ -111,13 +111,11 @@ while True:
     data, address = sock.recvfrom(buf)
     print ('received %s bytes from %s' % (len(data), address))
     print (data)
-
-    newthread = ClientThread(clientId, address)
-    newthread.start()
-
-    clientId +=1
+    if(data=='Hola servidor!'):
+        newthread = ClientThread(clientId, address)
+        newthread.start()
+        clientId +=1
     #A partir de aqui va el cliente
-    
     
     #Numero de datagramas enviados
     #enviados = 0
