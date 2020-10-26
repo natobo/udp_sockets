@@ -73,7 +73,7 @@ while True:
     if ack:
         f=open(file_name,"rb")
         data = f.read(buf)
-        tInicial = time.time_ns()
+        tInicial = time.time()
         while (data):
             sent = sock.sendto(data, address)
             if(sent):
@@ -85,7 +85,7 @@ while True:
 
         print ('\nEsperando confirmacion hash y num datagramas recibidos')
         msg_last, address = sock.recvfrom(buf)
-        tFinal = time.time_ns()
+        tFinal = time.time()
         print(msg_last)
         msg_hash, recibidos = msg_last.split(separador)
         
