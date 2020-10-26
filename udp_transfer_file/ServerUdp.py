@@ -8,10 +8,11 @@ from threading import Thread
 # Clase que genera un Thread que representa un cliente al cual transmitirle los datos dentro del servidor
 class ClientThread(Thread):
     # Contructor del Thread
-    def __init__(self, id, address):
+    def __init__(self, id, address,sock):
         Thread.__init__(self)
         self.id = id
         self.address = address
+        self.sock=sock
         self.enviados = 0
         print("Nuevo Thread comenzado por "+ str(address))
     #Metodo que ejecuta el thread
@@ -22,12 +23,15 @@ class ClientThread(Thread):
         global file_name
         global sock
 
-        #Envia nombre del archivo y el codigo de verificacion de Hash
-        print("filename_md5::"+file_name+separador+Verification_code)
+        #Envia nombre del archivo, el codigo de verificacion de Hash y el puerto por el que se va a realizar la nueva conexion
+        print("filename_md5_port::"+file_name+separador+Verification_code+separador+self.address[1])
         sock.sendto((file_name+separador+Verification_code).encode(),self.address)
+
+        #inicializa el nuevo socket
+        self.sock.bind(self.address)
         
         print ('\nEsperando indicador de inicio del cliente')
-        ack, address = sock.recvfrom(buf)
+        ack, address = self.sock.recvfrom(buf)
         print ('received %s bytes from %s' % (len(ack), address))
         print (ack)
         
@@ -36,7 +40,7 @@ class ClientThread(Thread):
             data = f.read(buf)
             tInicial = time.time()
             while (data):
-                sent = sock.sendto(data, address)
+                sent = self.sock.sendto(data, address)
                 if(sent):
                     print ('sent %s bytes back to %s' % (sent, address))
                     data = f.read(buf)
@@ -45,7 +49,7 @@ class ClientThread(Thread):
             print ('sent %s bytes back to %s' % (sent, address))
 
             print ('\nEsperando confirmacion hash y num datagramas recibidos')
-            msg_last, address = sock.recvfrom(buf)
+            msg_last, address = self.sock.recvfrom(buf)
             tFinal = time.time()
             print(msg_last)
             msg_hash, recibidos = msg_last.split(separador)
@@ -60,14 +64,14 @@ class ClientThread(Thread):
                 log.close()
     
 
+
 # Create a UDP socket
 sock = socket.socket(socket.AF_INET, socket.SOCK_DGRAM)
-
+UDP_PORT = 10000
 # Bind the socket to the port
-server_address = ('', 10000)
+server_address = ('', UDP_PORT)
 print ('starting up on %s port %s' % server_address)
 sock.bind(server_address)
-
 buf =1024
 
 # Aplicacion de ejecucion del servidor UDP para definir cual archivo es que el que va transmitir y a cuantos clientes.
@@ -104,15 +108,18 @@ def createVerificationCode(filename):
     return Verification_code
 
 verification_code = createVerificationCode(file_name)
-clientId = 0
+#Dejar inicializacion en 1, lo toma como id del primer Thread 
+clientId = 1
 
 while True:
     print ('\nWaiting to receive message')
     data, address = sock.recvfrom(buf)
     print ('received %s bytes from %s' % (len(data), address))
     print (data)
-    if(data=='Hola servidor!'):
-        newthread = ClientThread(clientId, address)
+    if(data=='Hola servidor!'): 
+        newSocket = socket.socket(socket.AF_INET, socket.SOCK_DGRAM)
+        new_server_address = ('', UDP_PORT+clientId)
+        newthread = ClientThread(clientId, new_server_address,newSocket)
         newthread.start()
         clientId +=1
     #A partir de aqui va el cliente

@@ -33,11 +33,16 @@ try:
     print ("Msg recibido:",msg.decode())
     filename,extension = msg.decode().split(separador)[0].split('.')
     hashcode = msg.decode().split(separador)[1]   
+    new_port = msg.decode().split(separador)[2]
+    sock.close() 
+
+    new_sock = socket.socket(socket.AF_INET, socket.SOCK_DGRAM)
+    new_server_address=(server_address[0],new_port)
     
     # Send data
     message2 = 'Estoy listo para recibir!'
     print('sending "%s"' % message2)
-    sent = sock.sendto(message2.encode(), server_address)
+    sent = new_sock.sendto(message2.encode(), new_server_address)
 
     #Crea el archivo
     new_filename= filename+'_'+str(time.time()).split('.')[0]+'.'+extension
@@ -45,17 +50,17 @@ try:
 
     #Numero de datagramas recibidos
     recibidos = 1
-    data,addr = sock.recvfrom(buf)
+    data,addr = new_sock.recvfrom(buf)
     while(data):
         recibidos+=1
         f.write(data)
-        sock.settimeout(2)
-        data,addr = sock.recvfrom(buf)
+        new_sock.settimeout(2)
+        data,addr = new_sock.recvfrom(buf)
 except:
     f.close()
     msgHash=VerificateHash(hashcode,new_filename)
     msgToSend=msgHash+separador+str(recibidos)
     print("File Downloaded")
     print('sending "%s"' % msgToSend)
-    sent = sock.sendto(msgToSend.encode(), server_address)
-    sock.close() 
+    sent = new_sock.sendto(msgToSend.encode(), new_server_address)
+    new_sock.close() 
