@@ -8,11 +8,11 @@ from threading import Thread
 # Clase que genera un Thread que representa un cliente al cual transmitirle los datos dentro del servidor
 class ClientThread(Thread):
     # Contructor del Thread
-    def __init__(self, id, address,sock):
+    def __init__(self, id, address,pSock):
         Thread.__init__(self)
         self.id = id
         self.address = address
-        self.sock=sock
+        self.sock=pSock
         self.enviados = 0
         print("Nuevo Thread comenzado por "+ str(address))
     #Metodo que ejecuta el thread
@@ -118,7 +118,7 @@ while True:
     print (data)
     if(data=='Hola servidor!'): 
         newSocket = socket.socket(socket.AF_INET, socket.SOCK_DGRAM)
-        new_server_address = ('', UDP_PORT+clientId)
+        new_server_address = (address[0], UDP_PORT+clientId)
         newthread = ClientThread(clientId, new_server_address,newSocket)
         newthread.start()
         clientId +=1
