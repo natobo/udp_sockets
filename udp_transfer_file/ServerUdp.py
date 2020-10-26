@@ -10,7 +10,7 @@ server_address = ('', 10000)
 print ('starting up on %s port %s' % server_address)
 sock.bind(server_address)
 
-file_name='dogs.jpg'
+file_name='ventilador_100.mp4'
 buf =1024
 
 # Variable que almacena el codigo md5 en hexadecimal del archivo a enviar
