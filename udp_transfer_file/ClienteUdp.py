@@ -37,7 +37,6 @@ try:
     sent = sock.sendto(message2.encode(), server_address)
     new_filename= filename+'_'+str(time.time()).split('.')[0]+'.'+extension
     f = open(new_filename,'wb')
-    
     data,addr = sock.recvfrom(buf)
     while(data):
         f.write(data)
