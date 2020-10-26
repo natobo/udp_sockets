@@ -29,13 +29,13 @@ try:
     # Receive response
     msg,addr = sock.recvfrom(buf)
     print ("Msg recibido:",msg.decode())
-    filename = msg.decode().split(separador)[0].split('.')[0] 
+    filename,extension = msg.decode().split(separador)[0].split('.')
     hashcode = msg.decode().split(separador)[1]   
     # Send data
     message2 = 'Estoy listo para recibir!'
     print('sending "%s"' % message2)
     sent = sock.sendto(message2.encode(), server_address)
-    new_filename= filename+'_'+str(time.time()).split('.')[0]+'.jpg'
+    new_filename= filename+'_'+str(time.time()).split('.')[0]+'.'+extension
     f = open(new_filename,'wb')
     
     data,addr = sock.recvfrom(buf)
