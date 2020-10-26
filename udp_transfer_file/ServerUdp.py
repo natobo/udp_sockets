@@ -13,7 +13,7 @@ class ClientThread(Thread):
         self.id = id
         self.address = address
         self.enviados = 0
-        print("Nuevo Thread comenzado por "+ address)
+        print("Nuevo Thread comenzado por "+ str(address))
     #Metodo que ejecuta el thread
     def run(self):
         global buf
@@ -110,8 +110,6 @@ while True:
     print ('\nWaiting to receive message')
     data, address = sock.recvfrom(buf)
     print ('received %s bytes from %s' % (len(data), address))
-
-    print ("ADDRESS::"+address)
     print (data)
 
     newthread = ClientThread(clientId, address)
