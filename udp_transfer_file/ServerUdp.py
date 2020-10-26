@@ -110,7 +110,8 @@ while True:
     print ('\nWaiting to receive message')
     data, address = sock.recvfrom(buf)
     print ('received %s bytes from %s' % (len(data), address))
-    print (address)
+
+    print ("ADDRESS::"+address)
     print (data)
 
     newthread = ClientThread(clientId, address)
