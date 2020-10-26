@@ -112,7 +112,7 @@ while True:
     print ('received %s bytes from %s' % (len(data), address))
     print (data)
 
-    newthread = ClientThread(ip, clientId, address)
+    newthread = ClientThread(clientId, address)
     newthread.start()
 
     clientId +=1
