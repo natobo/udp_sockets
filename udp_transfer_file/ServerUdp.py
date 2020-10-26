@@ -92,7 +92,7 @@ while True:
         with open(LogTxt, 'w') as log:
             log.write('Cliente %i - fragmentos enviados: %i' % (clientId, enviados) + '\n')
             log.write('Cliente %i - fragmentos recibidos: %i' % (clientId, recibidos) + '\n')
-            log.write('Cliente %i - verificación: %s' % (clientId, msg_hash)+ '\n' )
+            log.write('Cliente %i - verificacion: %s' % (clientId, msg_hash)+ '\n' )
             log.write('Cliente %i - tInicial: %s' % str(tInicial) + '\n')
             log.write('Cliente %i - tFinal: %s' % str(tFinal) + '\n')
             log.write('Cliente %i - tTotal: %s' % str(tFinal - tInicial) + '\n')
