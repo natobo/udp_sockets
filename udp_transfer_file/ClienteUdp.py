@@ -54,7 +54,7 @@ try:
 except:
     f.close()
     msgHash=VerificateHash(hashcode,new_filename)
-    msgToSend=msgHash+separador+recibidos
+    msgToSend=msgHash+separador+str(recibidos)
     print("File Downloaded")
     print('sending "%s"' % msgToSend)
     sent = sock.sendto(msgToSend.encode(), server_address)
