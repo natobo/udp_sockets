@@ -93,8 +93,8 @@ while True:
             log.write('Cliente %i - fragmentos enviados: %i' % (clientId, enviados) + '\n')
             log.write('Cliente %i - fragmentos recibidos: %s' % (clientId, recibidos) + '\n')
             log.write('Cliente %i - verificacion: %s' % (clientId, msg_hash)+ '\n' )
-            log.write('Cliente %i - tInicial: %s' % (clientId,str(tInicial)) + '\n')
-            log.write('Cliente %i - tFinal: %s' % (clientId, str(tFinal)) + '\n')
-            log.write('Cliente %i - tTotal: %s' % (clientId, str(tFinal - tInicial)) + '\n')
+            log.write('Cliente %i - tInicial: %s seg' % (clientId,str(tInicial)) + '\n')
+            log.write('Cliente %i - tFinal: %s seg' % (clientId, str(tFinal)) + '\n')
+            log.write('Cliente %i - tTotal: %s seg' % (clientId, str(tFinal - tInicial)) + '\n')
             log.close()
     
