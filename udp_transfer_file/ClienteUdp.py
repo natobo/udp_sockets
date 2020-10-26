@@ -37,7 +37,7 @@ try:
     sock.close() 
 
     new_sock = socket.socket(socket.AF_INET, socket.SOCK_DGRAM)
-    new_server_address=(server_address[0],new_port)
+    new_server_address=(server_address[0],int(new_port))
     
     # Send data
     message2 = 'Estoy listo para recibir!'

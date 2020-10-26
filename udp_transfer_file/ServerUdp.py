@@ -26,7 +26,6 @@ class ClientThread(Thread):
         global flag
 
         #Envia nombre del archivo, el codigo de verificacion de Hash y el puerto por el que se va a realizar la nueva conexion
-        print("th adr: "+str(self.address))
         print("filename_md5_port::"+file_name+separador+Verification_code+separador+str(self.address[1]))
         sock.sendto((file_name+separador+Verification_code+separador+str(self.address[1])).encode(),self.old_address)
         flag=1
@@ -124,7 +123,6 @@ while True:
     if(data=='Hola servidor!'): 
         newSocket = socket.socket(socket.AF_INET, socket.SOCK_DGRAM)
         new_server_address = ('', UDP_PORT+clientId)
-        print("newaddr: "+str(new_server_address))
         newthread = ClientThread(clientId, new_server_address,address,newSocket)
         newthread.start()
         while True:
