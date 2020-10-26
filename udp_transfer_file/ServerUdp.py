@@ -25,13 +25,13 @@ print("Listo, menciona el numero de clientes a los que quieres antender en simul
 opcion2 = int(input("Ingresa el numero de clientes: "))
 # Preparacion del log
 LogTxt = 'log_servidor' + \
-    '_'+str(time.time()) + '.txt'
+    '_'+str(datetime.datetime.now()) + '.txt'
 
 with open(LogTxt, 'w') as log:
     log.write("Fecha y hora de la prueba: " +
               str(datetime.datetime.now()) + '\n')
     log.write("Archivo a transmitir: " + file_name)
-    log.write("Tamaño archivo: " + str(sys.getsizeof(file_name)))
+    log.write("Tamano archivo: " + str(sys.getsizeof(file_name)))
     log.close()
 
 clientId = 0
