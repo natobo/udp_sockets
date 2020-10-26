@@ -25,7 +25,7 @@ print("Listo, menciona el numero de clientes a los que quieres antender en simul
 opcion2 = int(input("Ingresa el numero de clientes: "))
 # Preparacion del log
 LogTxt = 'log_servidor' + \
-    '_'+str(datetime.datetime.now()) + '.txt'
+    '_'+str(datetime.datetime.now().split('.')[0]) + '.txt'
 
 with open(LogTxt, 'w') as log:
     log.write("Fecha y hora de la prueba: " +
