@@ -8,10 +8,11 @@ from threading import Thread
 # Clase que genera un Thread que representa un cliente al cual transmitirle los datos dentro del servidor
 class ClientThread(Thread):
     # Contructor del Thread
-    def __init__(self, id, address,pSock):
+    def __init__(self, id, address,old_address,pSock):
         Thread.__init__(self)
         self.id = id
         self.address = address
+        self.old_address = old_address
         self.sock=pSock
         self.enviados = 0
         print("Nuevo Thread comenzado por "+ str(address))
@@ -27,7 +28,7 @@ class ClientThread(Thread):
         #Envia nombre del archivo, el codigo de verificacion de Hash y el puerto por el que se va a realizar la nueva conexion
         print("th adr: "+str(self.address))
         print("filename_md5_port::"+file_name+separador+Verification_code+separador+str(self.address[1]))
-        sock.sendto((file_name+separador+Verification_code+separador+str(self.address[1])).encode(),self.address)
+        sock.sendto((file_name+separador+Verification_code+separador+str(self.address[1])).encode(),self.old_address)
         flag=1
         #inicializa el nuevo socket
         self.sock.bind(self.address)
@@ -122,9 +123,9 @@ while True:
     print (data)
     if(data=='Hola servidor!'): 
         newSocket = socket.socket(socket.AF_INET, socket.SOCK_DGRAM)
-        new_server_address = (address[0], UDP_PORT+clientId)
+        new_server_address = ('', UDP_PORT+clientId)
         print("newaddr: "+str(new_server_address))
-        newthread = ClientThread(clientId, new_server_address,newSocket)
+        newthread = ClientThread(clientId, new_server_address,address,newSocket)
         newthread.start()
         while True:
             if flag == 1:
