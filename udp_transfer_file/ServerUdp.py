@@ -55,7 +55,7 @@ class ClientThread(Thread):
             tFinal = time.time()
             print(msg_last)
             msg_hash, recibidos = msg_last.split(separador)
-            
+            self.sock.close()
             with open(LogTxt, 'w') as log:
                 log.write('Cliente %i - fragmentos enviados: %i' % (self.id, self.enviados) + '\n')
                 log.write('Cliente %i - fragmentos recibidos: %s' % (self.id, recibidos) + '\n')
