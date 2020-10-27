@@ -7,7 +7,6 @@ import threading
 import os
 import argparse
 import sys
-import keyboard
 import select
 from queue import Queue
 
@@ -78,14 +77,6 @@ def canal(IP = "224.1.1.1",Puerto = 20001,v=None,e=0,nombre="Canal"):
 
     print("Canal "+nombre+": Termine en "+IP+":"+str(Puerto))
 
-# Escuchar teclado para detectar interrupcion
-interrumpir = True
-def key_press(tecla):
-    global interrumpir
-    if tecla == keyboard.KeyCode.from_char("z"):
-        print ("\nApagando...")
-        interrumpir = False
-        return False
 
 
 print ("\nBienvenido al servidor de streaming por broadcast UDP (presione 'z' para salir)\n")
@@ -147,15 +138,13 @@ for infocanal in contenido:
 
 # Loop principal
 # Inicia escucha de teclado
-#with keyboard.Listener(on_press=on_press) as listener:
-keyboard.on_press(key_press)
     # Crear socket
 with socket.socket(family=socket.AF_INET, type=socket.SOCK_DGRAM) as Socket:
 	# Conecta socket a ip y puerto
 	Socket.bind((IP, Puerto))
 	# Iniciando escucha de clientes
 	print("\nEscuchando clientes en: "+IP+":"+str(Puerto)+"\n")
-	while interrumpir:
+	while True:
 		# Verifica si llego mensaje
 		leer, escribir, error = select.select([Socket],[],[],10)
 		# Si llego
