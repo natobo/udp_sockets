@@ -80,7 +80,7 @@ buf =1024
 print("Hola!, bienvenido a la aplicacion de transferencia de archivos UDP del grupo 11, por favor selecciona el archivo de video a mandar: "+"\n")
 print("1. Video 1 de  100 MB"+"\n")
 print("2. Video 2 de  250 MB"+"\n")
-print("3. Imagen jpg de perritos"+"\n")
+print("3. Video 3 de  2   MB"+"\n")
 opcion = int(input("Ingresa una opcion: "))
 file_name = 'ventilador_100.mp4' if (opcion == 1) else 'hielo_250.mp4' if (opcion == 2) else 'secuencia.mp4'
 print("Listo, menciona el numero de clientes a los que quieres antender en simultaneo para enviar el archivo: "+"\n")
