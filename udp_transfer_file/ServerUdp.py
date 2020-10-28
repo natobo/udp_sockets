@@ -24,7 +24,6 @@ class ClientThread(Thread):
         global file_name
         global sock
         global flag
-
         #Envia nombre del archivo, el codigo de verificacion de Hash y el puerto por el que se va a realizar la nueva conexion
         print("filename_md5_port::"+file_name+separador+Verification_code+separador+str(self.address[1]))
         sock.sendto((file_name+separador+Verification_code+separador+str(self.address[1])).encode(),self.old_address)
@@ -50,23 +49,21 @@ class ClientThread(Thread):
             f.close()
             print ('sent %s bytes back to %s' % (sent, address))
             # Se tuvo que comentar esta zona dado que para las pruebas lo threads UDP de Jmeter no pueden responder la confirmacion del Hash
-            #print ('\nEsperando confirmacion hash y num datagramas recibidos')
-            #msg_last, address = self.sock.recvfrom(buf)
-            #tFinal = time.time()
-            #print(msg_last)
-            #msg_hash, recibidos = msg_last.split(separador)
+            print ('\nEsperando confirmacion hash y num datagramas recibidos')
+            msg_last, address = self.sock.recvfrom(buf)
+            tFinal = time.time()
+            print(msg_last)
+            msg_hash, recibidos = msg_last.split(separador)
             self.sock.close()
-            #with open(LogTxt, 'w') as log:
-            #    log.write('Cliente %i - fragmentos enviados: %i' % (self.id, self.enviados) + '\n')
-            #    log.write('Cliente %i - fragmentos recibidos: %s' % (self.id, recibidos) + '\n')
-            #    log.write('Cliente %i - verificacion: %s' % (self.id, msg_hash)+ '\n' )
-            #    log.write('Cliente %i - tInicial: %s seg' % (self.id,str(tInicial)) + '\n')
-            #    log.write('Cliente %i - tFinal: %s seg' % (self.id, str(tFinal)) + '\n')
-            #    log.write('Cliente %i - tTotal: %s seg' % (self.id, str(tFinal - tInicial)) + '\n')
-            #    log.close()
-    
-
-
+            with open(LogTxt, 'w') as log:
+                log.write('Cliente %i - fragmentos enviados: %i' % (self.id, self.enviados) + '\n')
+                log.write('Cliente %i - fragmentos recibidos: %s' % (self.id, recibidos) + '\n')
+                log.write('Cliente %i - verificacion: %s' % (self.id, msg_hash)+ '\n' )
+                log.write('Cliente %i - tInicial: %s seg' % (self.id,str(tInicial)) + '\n')
+                log.write('Cliente %i - tFinal: %s seg' % (self.id, str(tFinal)) + '\n')
+                log.write('Cliente %i - tTotal: %s seg' % (self.id, str(tFinal - tInicial)) + '\n')
+                log.close()  
+             
 # Create a UDP socket
 sock = socket.socket(socket.AF_INET, socket.SOCK_DGRAM)
 UDP_PORT = 10000
@@ -129,7 +126,8 @@ while True:
             if flag == 1:
                 flag = 0
                 break
-        clientId +=1
+        clientId +=1     
+
     #A partir de aqui va el cliente
     
     #Numero de datagramas enviados
