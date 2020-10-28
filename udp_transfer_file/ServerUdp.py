@@ -56,14 +56,14 @@ class ClientThread(Thread):
             #print(msg_last)
             #msg_hash, recibidos = msg_last.split(separador)
             self.sock.close()
-            with open(LogTxt, 'w') as log:
-                log.write('Cliente %i - fragmentos enviados: %i' % (self.id, self.enviados) + '\n')
-                log.write('Cliente %i - fragmentos recibidos: %s' % (self.id, recibidos) + '\n')
-                log.write('Cliente %i - verificacion: %s' % (self.id, msg_hash)+ '\n' )
-                log.write('Cliente %i - tInicial: %s seg' % (self.id,str(tInicial)) + '\n')
-                log.write('Cliente %i - tFinal: %s seg' % (self.id, str(tFinal)) + '\n')
-                log.write('Cliente %i - tTotal: %s seg' % (self.id, str(tFinal - tInicial)) + '\n')
-                log.close()
+            #with open(LogTxt, 'w') as log:
+            #    log.write('Cliente %i - fragmentos enviados: %i' % (self.id, self.enviados) + '\n')
+            #    log.write('Cliente %i - fragmentos recibidos: %s' % (self.id, recibidos) + '\n')
+            #    log.write('Cliente %i - verificacion: %s' % (self.id, msg_hash)+ '\n' )
+            #    log.write('Cliente %i - tInicial: %s seg' % (self.id,str(tInicial)) + '\n')
+            #    log.write('Cliente %i - tFinal: %s seg' % (self.id, str(tFinal)) + '\n')
+            #    log.write('Cliente %i - tTotal: %s seg' % (self.id, str(tFinal - tInicial)) + '\n')
+            #    log.close()
     
 
 
