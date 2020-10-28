@@ -49,12 +49,12 @@ class ClientThread(Thread):
                     self.enviados += 1
             f.close()
             print ('sent %s bytes back to %s' % (sent, address))
-
-            print ('\nEsperando confirmacion hash y num datagramas recibidos')
-            msg_last, address = self.sock.recvfrom(buf)
-            tFinal = time.time()
-            print(msg_last)
-            msg_hash, recibidos = msg_last.split(separador)
+            # Se tuvo que comentar esta zona dado que para las pruebas lo threads UDP de Jmeter no pueden responder la confirmacion del Hash
+            #print ('\nEsperando confirmacion hash y num datagramas recibidos')
+            #msg_last, address = self.sock.recvfrom(buf)
+            #tFinal = time.time()
+            #print(msg_last)
+            #msg_hash, recibidos = msg_last.split(separador)
             self.sock.close()
             with open(LogTxt, 'w') as log:
                 log.write('Cliente %i - fragmentos enviados: %i' % (self.id, self.enviados) + '\n')
