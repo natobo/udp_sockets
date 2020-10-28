@@ -24,7 +24,7 @@ class ClientThread(Thread):
         global file_name
         global sock
         global flag
-        #Envia nombre del archivo, el codigo de verificacion de Hash y el puerto por el que se va a realizar la nueva conexion
+        #Envia nombre del archivo, el codigo de verificacion de Hash y el puerto por el que se va a realizar la nueva conexion.
         print("filename_md5_port::"+file_name+separador+Verification_code+separador+str(self.address[1]))
         sock.sendto((file_name+separador+Verification_code+separador+str(self.address[1])).encode(),self.old_address)
         flag=1
@@ -43,7 +43,7 @@ class ClientThread(Thread):
             while (data):
                 sent = self.sock.sendto(data, address)
                 if(sent):
-                    print ('sent %s bytes back to %s' % (sent, address))
+                    #print ('sent %s bytes back to %s' % (sent, address))
                     data = f.read(buf)
                     self.enviados += 1
             f.close()

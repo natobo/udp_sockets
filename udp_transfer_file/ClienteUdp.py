@@ -22,7 +22,6 @@ def VerificateHash(originalHash, filename):
         return "HASH ALTERADO"
 
 try:
-    
     # Send data
     message1 = 'Hola servidor!'
     print('sending "%s"' % message1)
